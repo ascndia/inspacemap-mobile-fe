@@ -1,0 +1,2025 @@
+{
+  "nodes": [
+    {
+      "id": 3,
+      "x": 1091,
+      "y": 614,
+      "panorama": "pano_3.jpg",
+      "rotation_offset": 180.0,
+      "neighbors": [
+        {
+          "target": 41,
+          "heading": 88.3
+        },
+        {
+          "target": 4,
+          "heading": 274.1
+        },
+        {
+          "target": 43,
+          "heading": 2.4
+        },
+        {
+          "target": 38,
+          "heading": 181.8
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "x": 1063,
+      "y": 612,
+      "panorama": "pano_4.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 29,
+          "heading": 283.8
+        },
+        {
+          "target": 3,
+          "heading": 94.1
+        },
+        {
+          "target": 5,
+          "heading": 259.2
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "x": 1032,
+      "y": 632,
+      "panorama": "pano_5.jpg",
+      "rotation_offset": 346.0,
+      "neighbors": [
+        {
+          "target": 6,
+          "heading": 263.7
+        },
+        {
+          "target": 29,
+          "heading": 322.2
+        },
+        {
+          "target": 4,
+          "heading": 57.2
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "x": 987,
+      "y": 633,
+      "panorama": "pano_6.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 29,
+          "heading": 8.0
+        },
+        {
+          "target": 5,
+          "heading": 93.7
+        },
+        {
+          "target": 32,
+          "heading": 286.4
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "x": 1058,
+      "y": 694,
+      "panorama": "pano_10.jpg",
+      "rotation_offset": 180.0,
+      "neighbors": [
+        {
+          "target": 37,
+          "heading": 271.7
+        },
+        {
+          "target": 39,
+          "heading": 78.4
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "x": 1102,
+      "y": 731,
+      "panorama": "pano_11.jpg",
+      "rotation_offset": 91.1,
+      "neighbors": [
+        {
+          "target": 14,
+          "heading": 134.5
+        },
+        {
+          "target": 39,
+          "heading": 353.7
+        },
+        {
+          "target": 13,
+          "heading": 182.8
+        },
+        {
+          "target": 12,
+          "heading": 82.5
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "x": 1140,
+      "y": 726,
+      "panorama": "pano_12.jpg",
+      "rotation_offset": 224.5,
+      "neighbors": [
+        {
+          "target": 13,
+          "heading": 211.5
+        },
+        {
+          "target": 14,
+          "heading": 161.6
+        },
+        {
+          "target": 11,
+          "heading": 262.5
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "x": 1099,
+      "y": 793,
+      "panorama": "pano_13.jpg",
+      "rotation_offset": 86.8,
+      "neighbors": [
+        {
+          "target": 12,
+          "heading": 31.5
+        },
+        {
+          "target": 14,
+          "heading": 86.3
+        },
+        {
+          "target": 11,
+          "heading": 2.8
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "x": 1161,
+      "y": 789,
+      "panorama": "pano_14.jpg",
+      "rotation_offset": 285.9,
+      "neighbors": [
+        {
+          "target": 11,
+          "heading": 314.5
+        },
+        {
+          "target": 13,
+          "heading": 266.3
+        },
+        {
+          "target": 12,
+          "heading": 341.6
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "x": 1064,
+      "y": 535,
+      "panorama": "pano_15.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 16,
+          "heading": 270.0
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "x": 991,
+      "y": 535,
+      "panorama": "pano_16.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 15,
+          "heading": 90.0
+        },
+        {
+          "target": 36,
+          "heading": 271.0
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "x": 904,
+      "y": 540,
+      "panorama": "pano_17.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 34,
+          "heading": 146.8
+        },
+        {
+          "target": 27,
+          "heading": 273.0
+        },
+        {
+          "target": 36,
+          "heading": 79.4
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "x": 910,
+      "y": 693,
+      "panorama": "pano_18.jpg",
+      "rotation_offset": 180.0,
+      "neighbors": [
+        {
+          "target": 35,
+          "heading": 16.8
+        },
+        {
+          "target": 19,
+          "heading": 272.2
+        },
+        {
+          "target": 37,
+          "heading": 89.3
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "x": 858,
+      "y": 691,
+      "panorama": "pano_19.jpg",
+      "rotation_offset": 180.0,
+      "neighbors": [
+        {
+          "target": 18,
+          "heading": 92.2
+        },
+        {
+          "target": 20,
+          "heading": 270.0
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "x": 792,
+      "y": 691,
+      "panorama": "pano_20.jpg",
+      "rotation_offset": 175.8,
+      "neighbors": [
+        {
+          "target": 19,
+          "heading": 90.0
+        },
+        {
+          "target": 21,
+          "heading": 266.8
+        },
+        {
+          "target": 110,
+          "heading": 209.5
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "x": 721,
+      "y": 695,
+      "panorama": "pano_21.jpg",
+      "rotation_offset": 175.8,
+      "neighbors": [
+        {
+          "target": 20,
+          "heading": 86.8
+        },
+        {
+          "target": 24,
+          "heading": 289.8
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "x": 652,
+      "y": 557,
+      "panorama": "pano_22.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 44,
+          "heading": 226.0
+        },
+        {
+          "target": 25,
+          "heading": 73.1
+        },
+        {
+          "target": 73,
+          "heading": 357.7
+        },
+        {
+          "target": 50,
+          "heading": 181.1
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "x": 657,
+      "y": 672,
+      "panorama": "pano_24.jpg",
+      "rotation_offset": 266.8,
+      "neighbors": [
+        {
+          "target": 44,
+          "heading": 310.3
+        },
+        {
+          "target": 21,
+          "heading": 109.8
+        },
+        {
+          "target": 50,
+          "heading": 354.4
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "x": 718,
+      "y": 537,
+      "panorama": "pano_25.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 22,
+          "heading": 253.1
+        },
+        {
+          "target": 26,
+          "heading": 90.0
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "x": 783,
+      "y": 537,
+      "panorama": "pano_26.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 25,
+          "heading": 270.0
+        },
+        {
+          "target": 27,
+          "heading": 90.0
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "x": 846,
+      "y": 537,
+      "panorama": "pano_27.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 26,
+          "heading": 270.0
+        },
+        {
+          "target": 17,
+          "heading": 93.0
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "x": 994,
+      "y": 583,
+      "panorama": "pano_29.jpg",
+      "rotation_offset": 346.0,
+      "neighbors": [
+        {
+          "target": 32,
+          "heading": 246.8
+        },
+        {
+          "target": 6,
+          "heading": 188.0
+        },
+        {
+          "target": 4,
+          "heading": 88.8
+        },
+        {
+          "target": 5,
+          "heading": 132.2
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "x": 952,
+      "y": 601,
+      "panorama": "pano_32.jpg",
+      "rotation_offset": 345.2,
+      "neighbors": [
+        {
+          "target": 29,
+          "heading": 80.8
+        },
+        {
+          "target": 34,
+          "heading": 328.8
+        },
+        {
+          "target": 33,
+          "heading": 266.0
+        },
+        {
+          "target": 6,
+          "heading": 132.4
+        },
+        {
+          "target": 35,
+          "heading": 195.7
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "x": 923,
+      "y": 601,
+      "panorama": "pano_33.jpg",
+      "rotation_offset": 82.0,
+      "neighbors": [
+        {
+          "target": 70,
+          "heading": 251.6
+        },
+        {
+          "target": 35,
+          "heading": 175.6
+        },
+        {
+          "target": 69,
+          "heading": 303.7
+        },
+        {
+          "target": 62,
+          "heading": 219.4
+        },
+        {
+          "target": 32,
+          "heading": 90.0
+        },
+        {
+          "target": 34,
+          "heading": 0.0
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "x": 923,
+      "y": 569,
+      "panorama": "pano_34.jpg",
+      "rotation_offset": 91.1,
+      "neighbors": [
+        {
+          "target": 69,
+          "heading": 264.6
+        },
+        {
+          "target": 17,
+          "heading": 326.8
+        },
+        {
+          "target": 32,
+          "heading": 137.8
+        },
+        {
+          "target": 36,
+          "heading": 20.4
+        },
+        {
+          "target": 33,
+          "heading": 180.0
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "x": 926,
+      "y": 640,
+      "panorama": "pano_35.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 18,
+          "heading": 196.8
+        },
+        {
+          "target": 33,
+          "heading": 355.6
+        },
+        {
+          "target": 62,
+          "heading": 261.5
+        },
+        {
+          "target": 32,
+          "heading": 33.7
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "x": 936,
+      "y": 534,
+      "panorama": "pano_36.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 17,
+          "heading": 259.4
+        },
+        {
+          "target": 34,
+          "heading": 200.4
+        },
+        {
+          "target": 16,
+          "heading": 91.0
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "x": 990,
+      "y": 692,
+      "panorama": "pano_37.jpg",
+      "rotation_offset": 180.0,
+      "neighbors": [
+        {
+          "target": 18,
+          "heading": 269.3
+        },
+        {
+          "target": 10,
+          "heading": 91.7
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "x": 1090,
+      "y": 646,
+      "panorama": "pano_38.jpg",
+      "rotation_offset": 80.5,
+      "neighbors": [
+        {
+          "target": 39,
+          "heading": 170.1
+        },
+        {
+          "target": 41,
+          "heading": 45.9
+        },
+        {
+          "target": 3,
+          "heading": 1.8
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "x": 1097,
+      "y": 686,
+      "panorama": "pano_39.jpg",
+      "rotation_offset": 84.7,
+      "neighbors": [
+        {
+          "target": 38,
+          "heading": 350.1
+        },
+        {
+          "target": 11,
+          "heading": 173.7
+        },
+        {
+          "target": 10,
+          "heading": 258.4
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "x": 1124,
+      "y": 613,
+      "panorama": "pano_41.jpg",
+      "rotation_offset": 180.0,
+      "neighbors": [
+        {
+          "target": 42,
+          "heading": 96.6
+        },
+        {
+          "target": 38,
+          "heading": 225.9
+        },
+        {
+          "target": 3,
+          "heading": 268.3
+        },
+        {
+          "target": 43,
+          "heading": 326.0
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "x": 1150,
+      "y": 616,
+      "panorama": "pano_42.jpg",
+      "rotation_offset": 184.2,
+      "neighbors": [
+        {
+          "target": 41,
+          "heading": 276.6
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "x": 1093,
+      "y": 567,
+      "panorama": "pano_43.jpg",
+      "rotation_offset": 274.0,
+      "neighbors": [
+        {
+          "target": 87,
+          "heading": 6.3
+        },
+        {
+          "target": 41,
+          "heading": 146.0
+        },
+        {
+          "target": 3,
+          "heading": 182.4
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "x": 591,
+      "y": 616,
+      "panorama": "pano_44.jpg",
+      "rotation_offset": 180.0,
+      "neighbors": [
+        {
+          "target": 45,
+          "heading": 276.3
+        },
+        {
+          "target": 22,
+          "heading": 46.0
+        },
+        {
+          "target": 24,
+          "heading": 130.3
+        },
+        {
+          "target": 50,
+          "heading": 85.2
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "x": 555,
+      "y": 612,
+      "panorama": "pano_45.jpg",
+      "rotation_offset": 184.2,
+      "neighbors": [
+        {
+          "target": 44,
+          "heading": 96.3
+        },
+        {
+          "target": 46,
+          "heading": 294.1
+        },
+        {
+          "target": 49,
+          "heading": 213.4
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "x": 526,
+      "y": 599,
+      "panorama": "pano_46.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 45,
+          "heading": 114.1
+        },
+        {
+          "target": 47,
+          "heading": 289.5
+        },
+        {
+          "target": 49,
+          "heading": 180.0
+        },
+        {
+          "target": 51,
+          "heading": 248.7
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "x": 495,
+      "y": 588,
+      "panorama": "pano_47.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 46,
+          "heading": 109.5
+        },
+        {
+          "target": 54,
+          "heading": 199.3
+        },
+        {
+          "target": 51,
+          "heading": 200.3
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "x": 526,
+      "y": 656,
+      "panorama": "pano_49.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 52,
+          "heading": 248.7
+        },
+        {
+          "target": 46,
+          "heading": 0.0
+        },
+        {
+          "target": 45,
+          "heading": 33.4
+        },
+        {
+          "target": 51,
+          "heading": 315.0
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "x": 651,
+      "y": 611,
+      "panorama": "pano_50.jpg",
+      "rotation_offset": 269.0,
+      "neighbors": [
+        {
+          "target": 65,
+          "heading": 118.3
+        },
+        {
+          "target": 22,
+          "heading": 1.1
+        },
+        {
+          "target": 24,
+          "heading": 174.4
+        },
+        {
+          "target": 44,
+          "heading": 265.2
+        },
+        {
+          "target": 66,
+          "heading": 74.4
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "x": 485,
+      "y": 615,
+      "panorama": "pano_51.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 52,
+          "heading": 174.8
+        },
+        {
+          "target": 46,
+          "heading": 68.7
+        },
+        {
+          "target": 47,
+          "heading": 20.3
+        },
+        {
+          "target": 53,
+          "heading": 327.0
+        },
+        {
+          "target": 55,
+          "heading": 270.0
+        },
+        {
+          "target": 49,
+          "heading": 135.0
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "x": 490,
+      "y": 670,
+      "panorama": "pano_52.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 51,
+          "heading": 354.8
+        },
+        {
+          "target": 49,
+          "heading": 68.7
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "x": 459,
+      "y": 575,
+      "panorama": "pano_53.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 55,
+          "heading": 200.6
+        },
+        {
+          "target": 54,
+          "heading": 180.0
+        },
+        {
+          "target": 51,
+          "heading": 147.0
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "x": 459,
+      "y": 691,
+      "panorama": "pano_54.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 47,
+          "heading": 19.3
+        },
+        {
+          "target": 53,
+          "heading": 0.0
+        },
+        {
+          "target": 55,
+          "heading": 348.8
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "x": 444,
+      "y": 615,
+      "panorama": "pano_55.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 57,
+          "heading": 304.4
+        },
+        {
+          "target": 53,
+          "heading": 20.6
+        },
+        {
+          "target": 56,
+          "heading": 338.6
+        },
+        {
+          "target": 58,
+          "heading": 234.7
+        },
+        {
+          "target": 54,
+          "heading": 168.8
+        },
+        {
+          "target": 51,
+          "heading": 90.0
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "x": 426,
+      "y": 569,
+      "panorama": "pano_56.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 60,
+          "heading": 245.5
+        },
+        {
+          "target": 55,
+          "heading": 158.6
+        },
+        {
+          "target": 57,
+          "heading": 181.7
+        },
+        {
+          "target": 72,
+          "heading": 290.8
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "x": 425,
+      "y": 602,
+      "panorama": "pano_57.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 55,
+          "heading": 124.4
+        },
+        {
+          "target": 72,
+          "heading": 314.0
+        },
+        {
+          "target": 56,
+          "heading": 1.7
+        },
+        {
+          "target": 58,
+          "heading": 189.5
+        },
+        {
+          "target": 60,
+          "heading": 277.1
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "x": 420,
+      "y": 632,
+      "panorama": "pano_58.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 55,
+          "heading": 54.7
+        },
+        {
+          "target": 60,
+          "heading": 306.0
+        },
+        {
+          "target": 57,
+          "heading": 9.5
+        },
+        {
+          "target": 59,
+          "heading": 259.7
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "x": 376,
+      "y": 640,
+      "panorama": "pano_59.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 58,
+          "heading": 79.7
+        },
+        {
+          "target": 60,
+          "heading": 351.2
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "x": 369,
+      "y": 595,
+      "panorama": "pano_60.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 56,
+          "heading": 65.5
+        },
+        {
+          "target": 58,
+          "heading": 126.0
+        },
+        {
+          "target": 72,
+          "heading": 358.8
+        },
+        {
+          "target": 57,
+          "heading": 97.1
+        },
+        {
+          "target": 59,
+          "heading": 171.2
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "x": 886,
+      "y": 646,
+      "panorama": "pano_62.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 35,
+          "heading": 81.5
+        },
+        {
+          "target": 33,
+          "heading": 39.4
+        },
+        {
+          "target": 70,
+          "heading": 11.3
+        },
+        {
+          "target": 63,
+          "heading": 264.4
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "x": 845,
+      "y": 650,
+      "panorama": "pano_63.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 62,
+          "heading": 84.4
+        },
+        {
+          "target": 64,
+          "heading": 270.0
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "x": 789,
+      "y": 650,
+      "panorama": "pano_64.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 65,
+          "heading": 266.1
+        },
+        {
+          "target": 63,
+          "heading": 90.0
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "x": 731,
+      "y": 654,
+      "panorama": "pano_65.jpg",
+      "rotation_offset": 192.7,
+      "neighbors": [
+        {
+          "target": 50,
+          "heading": 298.3
+        },
+        {
+          "target": 64,
+          "heading": 86.1
+        },
+        {
+          "target": 66,
+          "heading": 355.5
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "x": 726,
+      "y": 590,
+      "panorama": "pano_66.jpg",
+      "rotation_offset": 286.0,
+      "neighbors": [
+        {
+          "target": 50,
+          "heading": 254.4
+        },
+        {
+          "target": 65,
+          "heading": 175.5
+        },
+        {
+          "target": 67,
+          "heading": 73.9
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "x": 771,
+      "y": 577,
+      "panorama": "pano_67.jpg",
+      "rotation_offset": 358.0,
+      "neighbors": [
+        {
+          "target": 68,
+          "heading": 86.9
+        },
+        {
+          "target": 66,
+          "heading": 253.9
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "x": 827,
+      "y": 574,
+      "panorama": "pano_68.jpg",
+      "rotation_offset": 358.0,
+      "neighbors": [
+        {
+          "target": 67,
+          "heading": 266.9
+        },
+        {
+          "target": 69,
+          "heading": 88.9
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "x": 881,
+      "y": 573,
+      "panorama": "pano_69.jpg",
+      "rotation_offset": 358.0,
+      "neighbors": [
+        {
+          "target": 34,
+          "heading": 84.6
+        },
+        {
+          "target": 33,
+          "heading": 123.7
+        },
+        {
+          "target": 68,
+          "heading": 268.9
+        },
+        {
+          "target": 70,
+          "heading": 162.5
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "x": 893,
+      "y": 611,
+      "panorama": "pano_70.jpg",
+      "rotation_offset": 118.0,
+      "neighbors": [
+        {
+          "target": 33,
+          "heading": 71.6
+        },
+        {
+          "target": 62,
+          "heading": 191.3
+        },
+        {
+          "target": 69,
+          "heading": 342.5
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "x": 368,
+      "y": 547,
+      "panorama": "pano_72.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 57,
+          "heading": 134.0
+        },
+        {
+          "target": 60,
+          "heading": 178.8
+        },
+        {
+          "target": 56,
+          "heading": 110.8
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "x": 650,
+      "y": 507,
+      "panorama": "pano_73.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 74,
+          "heading": 57.0
+        },
+        {
+          "target": 22,
+          "heading": 177.7
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "x": 690,
+      "y": 481,
+      "panorama": "pano_74.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 73,
+          "heading": 237.0
+        },
+        {
+          "target": 75,
+          "heading": 90.0
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "x": 713,
+      "y": 481,
+      "panorama": "pano_75.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 74,
+          "heading": 270.0
+        },
+        {
+          "target": 76,
+          "heading": 93.4
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "x": 747,
+      "y": 483,
+      "panorama": "pano_76.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 75,
+          "heading": 273.4
+        },
+        {
+          "target": 77,
+          "heading": 72.9
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "x": 773,
+      "y": 475,
+      "panorama": "pano_77.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 83,
+          "heading": 120.2
+        },
+        {
+          "target": 78,
+          "heading": 33.0
+        },
+        {
+          "target": 105,
+          "heading": 73.6
+        },
+        {
+          "target": 76,
+          "heading": 252.9
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "x": 799,
+      "y": 435,
+      "panorama": "pano_78.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 77,
+          "heading": 213.0
+        },
+        {
+          "target": 97,
+          "heading": 88.0
+        },
+        {
+          "target": 98,
+          "heading": 115.9
+        },
+        {
+          "target": 105,
+          "heading": 165.1
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "x": 816,
+      "y": 500,
+      "panorama": "pano_83.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 77,
+          "heading": 300.2
+        },
+        {
+          "target": 98,
+          "heading": 56.0
+        },
+        {
+          "target": 105,
+          "heading": 345.6
+        },
+        {
+          "target": 99,
+          "heading": 89.2
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "x": 1097,
+      "y": 531,
+      "panorama": "pano_87.jpg",
+      "rotation_offset": 278.0,
+      "neighbors": [
+        {
+          "target": 43,
+          "heading": 186.3
+        },
+        {
+          "target": 88,
+          "heading": 6.5
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "x": 1094,
+      "y": 511,
+      "panorama": "pano_88.jpg",
+      "rotation_offset": 261.0,
+      "neighbors": [
+        {
+          "target": 87,
+          "heading": 171.5
+        },
+        {
+          "target": 89,
+          "heading": 343
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "x": 1081,
+      "y": 472,
+      "panorama": "pano_89.jpg",
+      "rotation_offset": 249.0,
+      "neighbors": [
+        {
+          "target": 88,
+          "heading": 158.9
+        },
+        {
+          "target": 95,
+          "heading": 211.9
+        },
+        {
+          "target": 104,
+          "heading": 266.9
+        },
+        {
+          "target": 91,
+          "heading": 339.0
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "x": 1084,
+      "y": 437,
+      "panorama": "pano_91.jpg",
+      "rotation_offset": 272.0,
+      "neighbors": [
+        {
+          "target": 89,
+          "heading": 184.9
+        },
+        {
+          "target": 94,
+          "heading": 272.7
+        },
+        {
+          "target": 92,
+          "heading": 8.3
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "x": 1091,
+      "y": 389,
+      "panorama": "pano_92.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 91,
+          "heading": 188.3
+        },
+        {
+          "target": 93,
+          "heading": 81.0
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "x": 1148,
+      "y": 380,
+      "panorama": "pano_93.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 92,
+          "heading": 261.0
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "x": 1040,
+      "y": 445,
+      "panorama": "pano_94.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 95,
+          "heading": 164.3
+        },
+        {
+          "target": 104,
+          "heading": 205.0
+        },
+        {
+          "target": 91,
+          "heading": 79.7
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "x": 1058,
+      "y": 509,
+      "panorama": "pano_95.jpg",
+      "rotation_offset": 148.0,
+      "neighbors": [
+        {
+          "target": 89,
+          "heading": 55.9
+        },
+        {
+          "target": 104,
+          "heading": 316.7
+        },
+        {
+          "target": 94,
+          "heading": 344.3
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "x": 886,
+      "y": 432,
+      "panorama": "pano_97.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 101,
+          "heading": 137.4
+        },
+        {
+          "target": 78,
+          "heading": 268.0
+        },
+        {
+          "target": 98,
+          "heading": 211.0
+        },
+        {
+          "target": 100,
+          "heading": 98.3
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "x": 865,
+      "y": 467,
+      "panorama": "pano_98.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 101,
+          "heading": 109.5
+        },
+        {
+          "target": 105,
+          "heading": 272.0
+        },
+        {
+          "target": 83,
+          "heading": 236.0
+        },
+        {
+          "target": 100,
+          "heading": 70.4
+        },
+        {
+          "target": 97,
+          "heading": 31.0
+        },
+        {
+          "target": 78,
+          "heading": 295.9
+        },
+        {
+          "target": 99,
+          "heading": 149.3
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "x": 884,
+      "y": 499,
+      "panorama": "pano_99.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 100,
+          "heading": 44.0
+        },
+        {
+          "target": 101,
+          "heading": 86.2
+        },
+        {
+          "target": 83,
+          "heading": 269.2
+        },
+        {
+          "target": 98,
+          "heading": 329.3
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "x": 941,
+      "y": 440,
+      "panorama": "pano_100.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 99,
+          "heading": 224.0
+        },
+        {
+          "target": 101,
+          "heading": 176.9
+        },
+        {
+          "target": 98,
+          "heading": 250.4
+        },
+        {
+          "target": 97,
+          "heading": 278.3
+        },
+        {
+          "target": 102,
+          "heading": 91.0
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "x": 944,
+      "y": 495,
+      "panorama": "pano_101.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 98,
+          "heading": 289.5
+        },
+        {
+          "target": 100,
+          "heading": 356.9
+        },
+        {
+          "target": 103,
+          "heading": 93.2
+        },
+        {
+          "target": 97,
+          "heading": 317.4
+        },
+        {
+          "target": 99,
+          "heading": 266.2
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "x": 997,
+      "y": 441,
+      "panorama": "pano_102.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 104,
+          "heading": 139.5
+        },
+        {
+          "target": 100,
+          "heading": 271.0
+        },
+        {
+          "target": 103,
+          "heading": 179.0
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "x": 998,
+      "y": 498,
+      "panorama": "pano_103.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 104,
+          "heading": 50.6
+        },
+        {
+          "target": 101,
+          "heading": 273.2
+        },
+        {
+          "target": 102,
+          "heading": 359.0
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "x": 1026,
+      "y": 475,
+      "panorama": "pano_104.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 103,
+          "heading": 230.6
+        },
+        {
+          "target": 89,
+          "heading": 86.9
+        },
+        {
+          "target": 95,
+          "heading": 136.7
+        },
+        {
+          "target": 102,
+          "heading": 319.5
+        },
+        {
+          "target": 94,
+          "heading": 25.0
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "x": 807,
+      "y": 465,
+      "panorama": "pano_105.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 98,
+          "heading": 92.0
+        },
+        {
+          "target": 77,
+          "heading": 253.6
+        },
+        {
+          "target": 83,
+          "heading": 165.6
+        },
+        {
+          "target": 78,
+          "heading": 345.1
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "x": 775,
+      "y": 721,
+      "panorama": "pano_110.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 20,
+          "heading": 29.5
+        },
+        {
+          "target": 111,
+          "heading": 237.5
+        },
+        {
+          "target": 119,
+          "heading": 125.5
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "x": 753,
+      "y": 735,
+      "panorama": "pano_111.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 110,
+          "heading": 57.5
+        },
+        {
+          "target": 112,
+          "heading": 273.2
+        },
+        {
+          "target": 123,
+          "heading": 211.9
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "x": 700,
+      "y": 732,
+      "panorama": "pano_112.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 111,
+          "heading": 93.2
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "x": 803,
+      "y": 741,
+      "panorama": "pano_119.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 125,
+          "heading": 186.2
+        },
+        {
+          "target": 120,
+          "heading": 45.0
+        },
+        {
+          "target": 110,
+          "heading": 305.5
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "x": 825,
+      "y": 719,
+      "panorama": "pano_120.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 119,
+          "heading": 225.0
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "x": 701,
+      "y": 802,
+      "panorama": "pano_122.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 123,
+          "heading": 44.0
+        },
+        {
+          "target": 124,
+          "heading": 91.3
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "x": 730,
+      "y": 772,
+      "panorama": "pano_123.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 111,
+          "heading": 31.9
+        },
+        {
+          "target": 122,
+          "heading": 224.0
+        },
+        {
+          "target": 124,
+          "heading": 119.7
+        },
+        {
+          "target": 125,
+          "heading": 95.0
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "x": 786,
+      "y": 804,
+      "panorama": "pano_124.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 123,
+          "heading": 299.7
+        },
+        {
+          "target": 125,
+          "heading": 26.6
+        },
+        {
+          "target": 122,
+          "heading": 271.3
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "x": 799,
+      "y": 778,
+      "panorama": "pano_125.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 124,
+          "heading": 206.6
+        },
+        {
+          "target": 123,
+          "heading": 275.0
+        },
+        {
+          "target": 119,
+          "heading": 6.2
+        },
+        {
+          "target": 126,
+          "heading": 117.0
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "x": 838,
+      "y": 798,
+      "panorama": "pano_126.jpg",
+      "rotation_offset": 0.0,
+      "neighbors": [
+        {
+          "target": 125,
+          "heading": 297.0
+        }
+      ]
+    }
+  ]
+}
