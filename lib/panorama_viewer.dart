@@ -3,7 +3,7 @@ import 'dart:convert'; // Untuk JSON
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
+import 'dart:io'; // <--- Tambahkan baris ini
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vector_math/vector_math_64.dart' as vec;
@@ -317,8 +317,8 @@ class _PanoramaViewerState extends State<PanoramaViewer>
   void _applyInertia() {
     if (_inertiaAnimation == null) return;
     setState(() {
-      _yaw -= _inertiaAnimation!.value.dx * 0.0010 * _fov;
-      _pitch += _inertiaAnimation!.value.dy * 0.0010 * _fov;
+      _yaw -= _inertiaAnimation!.value.dx * 0.0005 * _fov;
+      _pitch -= _inertiaAnimation!.value.dy * 0.0005 * _fov;
       _pitch = _pitch.clamp(-1.5, 1.5);
     });
   }
@@ -330,12 +330,12 @@ class _PanoramaViewerState extends State<PanoramaViewer>
   void _onScaleUpdate(ScaleUpdateDetails details) {
     setState(() {
       _yaw -= details.focalPointDelta.dx * 0.0010 * _fov;
-      _pitch += details.focalPointDelta.dy * 0.0010 * _fov;
+      _pitch -= details.focalPointDelta.dy * 0.0010 * _fov;
       _pitch = _pitch.clamp(-1.5, 1.5);
 
       // Zoom
       if (details.scale != 1.0) {
-        double newFov = _fov / details.scale;
+        double newFov = _fov / (details.scale * 0.1 + 0.9);
         _fov = newFov.clamp(0.4, 1.2);
       }
     });
@@ -356,7 +356,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
     }
   }
 
-  Offset? _projectToScreen(double heading, Size size) {
+  Offset? _projectToScreen(double heading, Size size, bool isMobile) {
     double finalHeading =
         heading -
         (_graph[_currentNodeId]?.rotationOffset ?? 0.0) -
@@ -375,6 +375,9 @@ class _PanoramaViewerState extends State<PanoramaViewer>
     if (ndcX < -1.5 || ndcX > 1.5 || ndcY < -1.5 || ndcY > 1.5) return null;
     double screenX = (ndcX + 1.0) * 0.5 * size.width;
     double screenY = (ndcY + 1.0) * 0.5 * size.height;
+    if (isMobile) {
+      screenY = size.height - screenY;
+    }
     return Offset(screenX, screenY);
   }
 
@@ -385,15 +388,16 @@ class _PanoramaViewerState extends State<PanoramaViewer>
         child: CircularProgressIndicator(color: Colors.white),
       );
     }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = Size(constraints.maxWidth, constraints.maxHeight);
         final currentNode = _graph[_currentNodeId];
-
+        final bool isMobileApp = Platform.isAndroid || Platform.isIOS;
         List<Widget> hotspots = [];
         if (!_isTransitioning && currentNode != null) {
           for (var edge in currentNode.edges) {
-            Offset? pos = _projectToScreen(edge.heading, size);
+            Offset? pos = _projectToScreen(edge.heading, size, isMobileApp);
 
             if (pos != null) {
               double distScale = _calculateScale(edge.targetNodeId);
@@ -408,6 +412,8 @@ class _PanoramaViewerState extends State<PanoramaViewer>
             }
           }
         }
+
+        final pixelRatio = MediaQuery.of(context).devicePixelRatio;
 
         return GestureDetector(
           onScaleStart: _onScaleStart,
@@ -425,6 +431,8 @@ class _PanoramaViewerState extends State<PanoramaViewer>
                     yaw: _yawBeforeTransition,
                     pitch: _pitchBeforeTransition,
                     fov: _fov,
+                    pixelRatio: pixelRatio,
+                    isMobile: isMobileApp,
                   ),
                 ),
 
@@ -442,6 +450,8 @@ class _PanoramaViewerState extends State<PanoramaViewer>
                         yaw: _yaw,
                         pitch: _pitch,
                         fov: _fov,
+                        pixelRatio: pixelRatio,
+                        isMobile: isMobileApp,
                       ),
                     ),
                   );
@@ -687,13 +697,16 @@ class _PanoramaPainter extends CustomPainter {
   final double yaw;
   final double pitch;
   final double fov;
-
+  final double pixelRatio;
+  final bool isMobile;
   _PanoramaPainter({
     required this.shader,
     required this.texture,
     required this.yaw,
     required this.pitch,
     required this.fov,
+    required this.pixelRatio,
+    required this.isMobile,
   });
 
   @override
@@ -701,13 +714,14 @@ class _PanoramaPainter extends CustomPainter {
     final matY = vec.Matrix4.rotationY(-yaw);
     final matX = vec.Matrix4.rotationX(pitch);
     final matrix = matY * matX;
-    shader.setFloat(0, size.width);
-    shader.setFloat(1, size.height);
+    shader.setFloat(0, size.width * pixelRatio); // <--- FIX DISTORSI
+    shader.setFloat(1, size.height * pixelRatio);
     shader.setImageSampler(0, texture);
     for (int i = 0; i < 16; i++) {
       shader.setFloat(2 + i, matrix.storage[i]);
     }
     shader.setFloat(18, fov);
+    shader.setFloat(19, isMobile ? 1.0 : 0.0);
     canvas.drawRect(Offset.zero & size, Paint()..shader = shader);
   }
 
@@ -716,6 +730,8 @@ class _PanoramaPainter extends CustomPainter {
     return old.yaw != yaw ||
         old.pitch != pitch ||
         old.fov != fov ||
-        old.texture != texture;
+        old.texture != texture ||
+        old.pixelRatio != pixelRatio ||
+        old.isMobile != isMobile;
   }
 }

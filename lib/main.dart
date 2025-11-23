@@ -273,9 +273,8 @@ class _MapScreenState extends State<MapScreen> {
       children: [
         // Layer 1: The map tiles
         TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName:
-              'com.yourcompany.inspacemap', // Change to your app's name
+          urlTemplate: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          userAgentPackageName: 'com.example.inspacemap',
         ),
 
         // Layer 2: The markers

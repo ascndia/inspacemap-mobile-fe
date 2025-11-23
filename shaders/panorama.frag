@@ -1,42 +1,43 @@
-#version 460 core
+#version 300 es
+precision mediump float;
 
-precision highp float;
-
+// URUTAN UNIFORM (Wajib Sama dengan Dart):
+// Index 0-1
 uniform vec2 uResolution;
-uniform sampler2D uTexture;
+// Index 2-17
 uniform mat4 uRotation;
+// Index 18
 uniform float uFov;
+// Index 19
+uniform float uFlip; 
+
+uniform sampler2D uTexture;
 
 out vec4 fragColor;
 
 const float PI = 3.14159265359;
 
 void main() {
-    vec2 pos = gl_FragCoord.xy;
-    
-    // Normalize coordinates
-    vec2 uv = (pos / uResolution) * 2.0 - 1.0;
-    
-    // Aspect Ratio Correction
+    vec2 uv = gl_FragCoord.xy / uResolution;
+    vec2 ndc = uv * 2.0 - 1.0;
     float aspect = uResolution.x / uResolution.y;
+
+    // LOGIKA MURNI (Punya kamu):
+    vec3 ray = normalize(vec3(ndc.x * aspect * uFov, ndc.y * uFov, -1.0));
+
+    // Rotasi 
+    vec3 rotatedRay = mat3(uRotation) * ray; 
     
-    // Ray Casting
-    // Z is forward (-1.0)
-    vec3 ray = normalize(vec3(uv.x * aspect * uFov, -uv.y * uFov, -1.0));
+    // Spherical Mapping
+    float phi = atan(rotatedRay.z, rotatedRay.x);
+    float theta = acos(clamp(rotatedRay.y, -1.0, 1.0));
+
+    // UV Mapping MURNI
+    float u = phi / (2.0 * PI) + 0.5;
+    float v = theta / PI; 
     
-    // Apply Rotation
-    // Casting to mat3 removes translation (w) components, ensuring pure rotation
-    vec3 rotatedRay = mat3(uRotation) * ray;
+    // Flip V for mobile devices
+    v = mix(v, 1.0 - v, uFlip);
     
-    // Cartesian -> Spherical
-    float phi = atan(rotatedRay.z, rotatedRay.x); 
-    float theta = acos(rotatedRay.y);             
-    
-    // Map to UV
-    vec2 texCoord = vec2(
-        (phi + PI) / (2.0 * PI),
-        theta / PI
-    );
-    
-    fragColor = texture(uTexture, texCoord);
+    fragColor = texture(uTexture, vec2(u, v));
 }
