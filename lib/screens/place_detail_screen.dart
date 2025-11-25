@@ -39,7 +39,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
         children: [
           // ---- LAYER 1: ENGINE PANORAMA ----
           Positioned.fill(
-            child: PanoramaViewer(
+            child: VirtualTourViewer(
               graph: _graph,
               initialNodeId: widget.startNodeId,
               debugMode: false,
