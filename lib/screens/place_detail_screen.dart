@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'panorama_viewer.dart';
-import 'models/venue_manifest.dart';
-import 'types/graph.dart';
+import '../panorama_viewer.dart';
+import '../models/venue_manifest.dart';
+import '../types/graph.dart';
 
 class PlaceDetailPage extends StatefulWidget {
   final VenueManifest venue;

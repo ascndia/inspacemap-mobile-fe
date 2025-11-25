@@ -6,16 +6,19 @@ import 'dart:ui' as ui;
 import 'dart:io'; // <--- Tambahkan baris ini
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:vector_math/vector_math_64.dart' as vec;
 
 import 'types/graph.dart'; // Import the file where GraphNode and GraphEdge are defined
 
 class PanoramaViewer extends StatefulWidget {
-  final int initialNodeId;
+  final Map<String, GraphNode> graph;
+  final String initialNodeId;
   final bool debugMode;
 
   const PanoramaViewer({
     super.key,
+    required this.graph,
     required this.initialNodeId,
     this.debugMode = false,
   });
@@ -27,7 +30,7 @@ class PanoramaViewer extends StatefulWidget {
 class _PanoramaViewerState extends State<PanoramaViewer>
     with TickerProviderStateMixin {
   ui.FragmentProgram? _shaderProgram;
-  Map<int, GraphNode> _graph = {};
+  late Map<String, GraphNode> _graph;
 
   double _debugRotationOffset = 0.0;
 
@@ -35,7 +38,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
   ui.Image? _previousTexture;
 
   bool _isReady = false;
-  late int _currentNodeId;
+  late String _currentNodeId;
 
   // Camera State
   double _yaw = 0.0;
@@ -58,6 +61,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
   void initState() {
     super.initState();
     _currentNodeId = widget.initialNodeId;
+    _graph = widget.graph;
 
     _inertiaController = AnimationController(
       vsync: this,
@@ -185,7 +189,10 @@ class _PanoramaViewerState extends State<PanoramaViewer>
   //   }
   // }
 
-  Future<void> _loadNode(int targetNodeId, {bool withTransition = true}) async {
+  Future<void> _loadNode(
+    String targetNodeId, {
+    bool withTransition = true,
+  }) async {
     if (!_graph.containsKey(targetNodeId)) return;
     if (_isReady && _graph.containsKey(_currentNodeId)) {
       final oldNode = _graph[_currentNodeId]!;
@@ -195,9 +202,10 @@ class _PanoramaViewerState extends State<PanoramaViewer>
         id: oldNode.id,
         x: oldNode.x,
         y: oldNode.y,
-        panoramaFile: oldNode.panoramaFile,
+        panoramaUrl: oldNode.panoramaUrl,
         rotationOffset: savedOffset,
         edges: oldNode.edges,
+        floorId: oldNode.floorId,
       );
     }
     double currentGlobalHeading = 0.0;
@@ -208,9 +216,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
     }
     try {
       final targetNode = _graph[targetNodeId]!;
-      final image = await _decodeImage(
-        'assets/panoramas/${targetNode.panoramaFile}',
-      );
+      final image = await _decodeImage(targetNode.panoramaUrl!);
       double newYawDeg = currentGlobalHeading - targetNode.rotationOffset;
       double newYawRad = newYawDeg * (pi / 180.0);
       _debugRotationOffset = 0.0; // Reset slider debug
@@ -241,7 +247,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
     }
   }
 
-  double _calculateScale(int targetId) {
+  double _calculateScale(String targetId) {
     final current = _graph[_currentNodeId];
     final target = _graph[targetId];
     if (current == null || target == null) return 1.0;
@@ -253,7 +259,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
     return scale;
   }
 
-  void _adjustNeighborHeading(int targetId, double delta) {
+  void _adjustNeighborHeading(String targetId, double delta) {
     setState(() {
       final node = _graph[_currentNodeId];
       if (node != null) {
@@ -263,6 +269,8 @@ class _PanoramaViewerState extends State<PanoramaViewer>
           final newEdge = GraphEdge(
             targetNodeId: oldEdge.targetNodeId,
             heading: (oldEdge.heading + delta) % 360.0, // Jaga agar tetap 0-360
+            distance: oldEdge.distance,
+            type: oldEdge.type,
           );
           node.edges[index] = newEdge;
         }
@@ -281,7 +289,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
       }
       nodesList.add({
         "id": node.id,
-        "panorama": node.panoramaFile,
+        "panorama": node.panoramaUrl,
         "rotation_offset": double.parse(
           saveOffset.toStringAsFixed(1),
         ), // Rounding
@@ -304,13 +312,11 @@ class _PanoramaViewerState extends State<PanoramaViewer>
     debugPrint("==============================");
   }
 
-  Future<ui.Image> _decodeImage(String assetPath) async {
-    final ByteData data = await rootBundle.load(assetPath);
+  Future<ui.Image> _decodeImage(String url) async {
+    final response = await http.get(Uri.parse(url));
+    final bytes = response.bodyBytes;
     final Completer<ui.Image> completer = Completer();
-    ui.decodeImageFromList(
-      data.buffer.asUint8List(),
-      (img) => completer.complete(img),
-    );
+    ui.decodeImageFromList(bytes, (img) => completer.complete(img));
     return completer.future;
   }
 
@@ -664,7 +670,7 @@ class _PanoramaViewerState extends State<PanoramaViewer>
     );
   }
 
-  Widget _tuneBtn(int targetId, double delta, String label) {
+  Widget _tuneBtn(String targetId, double delta, String label) {
     return InkWell(
       onTap: () => _adjustNeighborHeading(targetId, delta),
       child: Container(
