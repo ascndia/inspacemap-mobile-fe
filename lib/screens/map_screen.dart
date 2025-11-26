@@ -48,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
                 venue.description ??
                 (venue.address != null
                     ? '${venue.address}, ${venue.city ?? ''}'
-                    : 'Venue overview'),
+                    : 'Venue'),
             image: venue.coverImageUrl ?? '',
             rating: 4.5,
             coords: venue.coordinates != null
@@ -66,7 +66,7 @@ class _MapScreenState extends State<MapScreen> {
                 id: area.id,
                 name: area.name,
                 description: area.description ?? 'Area in ${floor.name}',
-                image: area.coverImageUrl ?? venue.coverImageUrl ?? '',
+                image: area.gallery.isNotEmpty ? area.gallery[0].url : '',
                 rating: 4.0,
                 coords: area.latitude != null && area.longitude != null
                     ? LatLng(area.latitude!, area.longitude!)
@@ -127,14 +127,20 @@ class _MapScreenState extends State<MapScreen> {
             alignment: Alignment.bottomCenter,
             child: _selectedPlace == null
                 ? _buildBottomCardList()
-                : LocationDetailSheet(
-                    place: _selectedPlace!,
-                    venue: _venue!,
-                    onClose: () {
-                      setState(() {
-                        _selectedPlace = null;
-                      });
-                    },
+                : DraggableScrollableSheet(
+                    initialChildSize: 0.4,
+                    minChildSize: 0.2,
+                    maxChildSize: 0.8,
+                    builder: (context, scrollController) => LocationDetailSheet(
+                      place: _selectedPlace!,
+                      venue: _venue!,
+                      onClose: () {
+                        setState(() {
+                          _selectedPlace = null;
+                        });
+                      },
+                      scrollController: scrollController,
+                    ),
                   ),
           ),
         ],
@@ -200,7 +206,9 @@ class _MapScreenState extends State<MapScreen> {
                   return ListTile(
                     title: Text(place.name),
                     subtitle: Text(
-                      place.description,
+                      place.description.isNotEmpty
+                          ? place.description
+                          : 'No description yet',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -233,66 +241,76 @@ class _MapScreenState extends State<MapScreen> {
   Widget _buildPlaceCard(PlaceData place) {
     return InkWell(
       onTap: () => _onPlaceSelected(place),
-      child: Container(
-        width: 320,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.0),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 6.0,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12.0),
-          child: Row(
-            children: [
-              Image.network(
-                place.image,
-                height: 140,
-                width: 120,
-                fit: BoxFit.cover,
+      child: IntrinsicWidth(
+        child: Container(
+          constraints: const BoxConstraints(minWidth: 200, maxWidth: 300),
+          height: 120,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 6.0,
+                offset: Offset(0, 2),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        place.name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        place.description,
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.orange,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 4),
-                          Text("${place.rating} stars"),
-                        ],
-                      ),
-                    ],
+            ],
+          ),
+          child: Stack(
+            children: [
+              // Background image with fade
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: ShaderMask(
+                    shaderCallback: (rect) {
+                      return LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [Colors.transparent, Colors.white],
+                        stops: [0.3, 1.0],
+                      ).createShader(rect);
+                    },
+                    blendMode: BlendMode.dstIn,
+                    child: Image.network(
+                      place.image,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Container(color: Colors.grey[200]),
+                    ),
                   ),
+                ),
+              ),
+              // Text overlay
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      place.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      place.description.isNotEmpty
+                          ? place.description
+                          : 'No description yet',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black87,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
             ],
