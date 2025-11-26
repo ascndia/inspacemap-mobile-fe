@@ -81,6 +81,7 @@ class FloorData {
   final int width;
   final int height;
   final List<NodeData> nodes;
+  final List<AreaData> areas;
 
   FloorData({
     required this.id,
@@ -90,6 +91,7 @@ class FloorData {
     required this.width,
     required this.height,
     required this.nodes,
+    required this.areas,
   });
 
   factory FloorData.fromJson(Map<String, dynamic> json) {
@@ -102,6 +104,9 @@ class FloorData {
       height: json['height'],
       nodes: (json['nodes'] is List)
           ? (json['nodes'] as List).map((n) => NodeData.fromJson(n)).toList()
+          : [],
+      areas: (json['areas'] is List)
+          ? (json['areas'] as List).map((a) => AreaData.fromJson(a)).toList()
           : [],
     );
   }
@@ -192,6 +197,92 @@ class GalleryItem {
       thumbnailUrl: _fixUrl(json['thumbnail_url']),
       caption: json['caption'],
       isFeatured: json['is_featured'],
+    );
+  }
+}
+
+class AreaData {
+  final String id;
+  final String name;
+  final String? description;
+  final String? category;
+  final double? latitude;
+  final double? longitude;
+  final List<BoundaryPoint> boundary;
+  final String? startNodeId;
+  final String? coverImageUrl;
+  final List<AreaGalleryDetail> gallery;
+
+  AreaData({
+    required this.id,
+    required this.name,
+    this.description,
+    this.category,
+    this.latitude,
+    this.longitude,
+    required this.boundary,
+    this.startNodeId,
+    this.coverImageUrl,
+    required this.gallery,
+  });
+
+  factory AreaData.fromJson(Map<String, dynamic> json) {
+    return AreaData(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      category: json['category'],
+      latitude: json['latitude']?.toDouble(),
+      longitude: json['longitude']?.toDouble(),
+      boundary: (json['boundary'] is List)
+          ? (json['boundary'] as List)
+                .map((b) => BoundaryPoint.fromJson(b))
+                .toList()
+          : [],
+      startNodeId: json['start_node_id'],
+      coverImageUrl: _fixUrl(json['cover_image_url']),
+      gallery: (json['gallery'] is List)
+          ? (json['gallery'] as List)
+                .map((g) => AreaGalleryDetail.fromJson(g))
+                .toList()
+          : [],
+    );
+  }
+}
+
+class BoundaryPoint {
+  final double x;
+  final double y;
+
+  BoundaryPoint({required this.x, required this.y});
+
+  factory BoundaryPoint.fromJson(Map<String, dynamic> json) {
+    return BoundaryPoint(x: json['x'].toDouble(), y: json['y'].toDouble());
+  }
+}
+
+class AreaGalleryDetail {
+  final String mediaId;
+  final String url;
+  final String? thumbnailUrl;
+  final String? caption;
+  final int sortOrder;
+
+  AreaGalleryDetail({
+    required this.mediaId,
+    required this.url,
+    this.thumbnailUrl,
+    this.caption,
+    required this.sortOrder,
+  });
+
+  factory AreaGalleryDetail.fromJson(Map<String, dynamic> json) {
+    return AreaGalleryDetail(
+      mediaId: json['media_id'],
+      url: _fixUrl(json['url']) ?? '',
+      thumbnailUrl: _fixUrl(json['thumbnail_url']),
+      caption: json['caption'],
+      sortOrder: json['sort_order'],
     );
   }
 }

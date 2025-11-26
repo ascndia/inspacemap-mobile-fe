@@ -42,7 +42,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
             child: VirtualTourViewer(
               graph: _graph,
               initialNodeId: widget.startNodeId,
-              debugMode: false,
+              debugMode: true,
             ),
           ),
 

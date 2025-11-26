@@ -39,28 +39,48 @@ class _MapScreenState extends State<MapScreen> {
       );
       setState(() {
         _venue = venue;
-        _places = venue.floors
-            .expand(
-              (floor) => floor.nodes
-                  .where((node) => node.id == venue.startNodeId)
-                  .map(
-                    (node) => PlaceData(
-                      id: node.id,
-                      name: node.label ?? 'Node ${node.id}',
-                      description: 'Floor: ${floor.name}',
-                      image: venue.coverImageUrl ?? '',
-                      rating: 4.0,
-                      coords: venue.coordinates != null
+        _places = [
+          // Venue place for street view
+          PlaceData(
+            id: venue.venueId,
+            name: venue.venueName,
+            description:
+                venue.description ??
+                (venue.address != null
+                    ? '${venue.address}, ${venue.city ?? ''}'
+                    : 'Venue overview'),
+            image: venue.coverImageUrl ?? '',
+            rating: 4.5,
+            coords: venue.coordinates != null
+                ? LatLng(
+                    venue.coordinates!.latitude,
+                    venue.coordinates!.longitude,
+                  )
+                : _demoLocation,
+            startNodeId: venue.startNodeId,
+          ),
+          // Areas as places
+          ...venue.floors.expand(
+            (floor) => floor.areas.map(
+              (area) => PlaceData(
+                id: area.id,
+                name: area.name,
+                description: area.description ?? 'Area in ${floor.name}',
+                image: area.coverImageUrl ?? venue.coverImageUrl ?? '',
+                rating: 4.0,
+                coords: area.latitude != null && area.longitude != null
+                    ? LatLng(area.latitude!, area.longitude!)
+                    : (venue.coordinates != null
                           ? LatLng(
                               venue.coordinates!.latitude,
                               venue.coordinates!.longitude,
                             )
-                          : _demoLocation,
-                      startNodeId: node.id,
-                    ),
-                  ),
-            )
-            .toList();
+                          : _demoLocation),
+                startNodeId: area.startNodeId ?? venue.startNodeId,
+              ),
+            ),
+          ),
+        ];
       });
     } catch (e) {
       print('Error fetching venue: $e');

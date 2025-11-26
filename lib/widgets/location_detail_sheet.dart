@@ -20,6 +20,21 @@ class LocationDetailSheet extends StatefulWidget {
 }
 
 class _LocationDetailSheetState extends State<LocationDetailSheet> {
+  List<dynamic> get _gallery {
+    if (widget.place.id == widget.venue.venueId) {
+      return widget.venue.gallery;
+    } else {
+      for (var floor in widget.venue.floors) {
+        for (var area in floor.areas) {
+          if (area.id == widget.place.id) {
+            return area.gallery;
+          }
+        }
+      }
+    }
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,9 +81,17 @@ class _LocationDetailSheetState extends State<LocationDetailSheet> {
               height: 120,
               child: Row(
                 children: [
-                  _buildImagePlaceholder(widget.place.image),
+                  _buildImagePlaceholder(
+                    _gallery.isNotEmpty ? _gallery[0].url : widget.place.image,
+                  ),
                   const SizedBox(width: 12),
-                  _buildImagePlaceholder(widget.place.image),
+                  _buildImagePlaceholder(
+                    _gallery.length > 1
+                        ? _gallery[1].url
+                        : (_gallery.isNotEmpty
+                              ? _gallery[0].url
+                              : widget.place.image),
+                  ),
                 ],
               ),
             ),
@@ -118,7 +141,7 @@ class _LocationDetailSheetState extends State<LocationDetailSheet> {
                     MaterialPageRoute(
                       builder: (context) => PlaceDetailPage(
                         venue: widget.venue,
-                        startNodeId: widget.place.id,
+                        startNodeId: widget.place.startNodeId,
                       ),
                     ),
                   );

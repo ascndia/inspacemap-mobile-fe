@@ -30,7 +30,14 @@ class GraphNode {
       panoramaUrl: node.panoramaUrl,
       rotationOffset: node.rotationOffset,
       edges: node.neighbors
-          .where((n) => n.isActive ?? false)
+          .where(
+            (n) => n.isActive ?? true,
+          ) // Include if isActive is true or null
+          .fold<Map<String, NeighborData>>(
+            {},
+            (map, n) => map..[n.targetNodeId] = n,
+          )
+          .values
           .map((n) => GraphEdge.fromApi(n))
           .toList(),
       floorId: floorId,

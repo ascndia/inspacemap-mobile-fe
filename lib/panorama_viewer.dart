@@ -32,8 +32,28 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
   @override
   void initState() {
     super.initState();
-    _currentNodeId = widget.initialNodeId;
+    if (widget.graph.isEmpty) {
+      _currentNodeId = ''; // No nodes
+    } else if (!widget.graph.containsKey(widget.initialNodeId)) {
+      _currentNodeId = widget.graph.keys.first; // Fallback to first node
+    } else {
+      _currentNodeId = widget.initialNodeId;
+    }
     // Initial setup if needed
+
+    // Debug: Print initial node
+    if (widget.debugMode) {
+      final initialNode = widget.graph[_currentNodeId];
+      if (initialNode != null) {
+        print(
+          'Entering panorama at node: ${initialNode.id}, Floor: ${initialNode.floorId}, Panorama: ${initialNode.panoramaUrl}',
+        );
+      } else {
+        print(
+          'Initial node not found: ${widget.initialNodeId}, Graph size: ${widget.graph.length}',
+        );
+      }
+    }
   }
 
   void _loadNode(String targetNodeId) {
@@ -49,14 +69,42 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
       _viewLat = 0.0;
       _viewLon = 0.0;
     });
+
+    // Debug: Print navigation info
+    if (widget.debugMode) {
+      print(
+        'Navigating to node: $targetNodeId, Floor: ${targetNode.floorId}, Panorama: ${targetNode.panoramaUrl}',
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.graph.isEmpty) {
+      return const Center(child: Text('No nodes in graph'));
+    }
+
     final currentNode = widget.graph[_currentNodeId];
 
-    if (currentNode == null || currentNode.panoramaUrl == null) {
-      return const Center(child: CircularProgressIndicator());
+    if (currentNode == null) {
+      return const Center(child: Text('Node not found'));
+    }
+
+    if (currentNode.panoramaUrl == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('No panorama image for this node'),
+            Text('Node ID: ${currentNode.id}'),
+            Text('Floor: ${currentNode.floorId}'),
+            if (widget.debugMode) ...[
+              Text('Edges: ${currentNode.edges.length}'),
+              ...currentNode.edges.map((e) => Text('-> ${e.targetNodeId}')),
+            ],
+          ],
+        ),
+      );
     }
 
     // 1. Convert Graph Edges to Hotspots
@@ -159,11 +207,36 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
                 style: const TextStyle(color: Colors.yellow),
               ),
               Text(
+                "Floor: ${node.floorId}",
+                style: const TextStyle(color: Colors.white),
+              ),
+              Text(
+                "Panorama: ${node.panoramaUrl ?? 'None'}",
+                style: const TextStyle(color: Colors.white),
+              ),
+              Text(
+                "Edges: ${node.edges.length} (filtered from neighbors)",
+                style: const TextStyle(color: Colors.white),
+              ),
+              if (node.edges.isNotEmpty) ...[
+                const Text("Edges:", style: TextStyle(color: Colors.cyan)),
+                ...node.edges.map(
+                  (e) => Text(
+                    "  -> ${e.targetNodeId}",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+              Text(
                 "Lat: ${_viewLat.toStringAsFixed(1)}°",
                 style: const TextStyle(color: Colors.white),
               ),
               Text(
                 "Lon: ${_viewLon.toStringAsFixed(1)}°",
+                style: const TextStyle(color: Colors.white),
+              ),
+              Text(
+                "Rotation Offset: ${node.rotationOffset.toStringAsFixed(1)}°",
                 style: const TextStyle(color: Colors.white),
               ),
             ],
