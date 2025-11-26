@@ -94,6 +94,35 @@ class _MapScreenState extends State<MapScreen> {
     _mapController.move(place.coords, 18.5);
   }
 
+  Widget _buildHighlightedText(String text, String query) {
+    if (query.isEmpty) return Text(text);
+    final lowerText = text.toLowerCase();
+    final lowerQuery = query.toLowerCase();
+    final spans = <TextSpan>[];
+    int start = 0;
+    while (true) {
+      final index = lowerText.indexOf(lowerQuery, start);
+      if (index == -1) break;
+      if (index > start) {
+        spans.add(TextSpan(text: text.substring(start, index)));
+      }
+      spans.add(
+        TextSpan(
+          text: text.substring(index, index + query.length),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+      );
+      start = index + query.length;
+    }
+    if (start < text.length) {
+      spans.add(TextSpan(text: text.substring(start)));
+    }
+    return RichText(text: TextSpan(children: spans));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,15 +231,22 @@ class _MapScreenState extends State<MapScreen> {
           },
           suggestionsBuilder:
               (BuildContext context, SearchController controller) {
-                return _places.map((place) {
+                final query = controller.text.toLowerCase();
+                final filteredPlaces = _places
+                    .where(
+                      (place) =>
+                          place.name.toLowerCase().contains(query) ||
+                          place.description.toLowerCase().contains(query),
+                    )
+                    .toList();
+                return filteredPlaces.map((place) {
                   return ListTile(
-                    title: Text(place.name),
-                    subtitle: Text(
+                    title: _buildHighlightedText(place.name, controller.text),
+                    subtitle: _buildHighlightedText(
                       place.description.isNotEmpty
                           ? place.description
                           : 'No description yet',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      controller.text,
                     ),
                     onTap: () {
                       controller.closeView(place.name);
