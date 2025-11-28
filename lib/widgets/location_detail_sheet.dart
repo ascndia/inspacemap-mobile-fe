@@ -207,8 +207,22 @@ class _LocationDetailSheetState extends State<LocationDetailSheet> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Container(
-                color: Colors.grey[200],
-                child: Image.network(widget.place.image, fit: BoxFit.cover),
+                color: Colors.grey[100],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.photo_library_outlined,
+                      color: Colors.grey[500],
+                      size: 48,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'No gallery available',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
