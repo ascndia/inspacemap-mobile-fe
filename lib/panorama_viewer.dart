@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:panorama_viewer/panorama_viewer.dart';
 
@@ -75,7 +76,9 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
 
       // Set initial view based on rotation offset to align panorama correctly
       _viewLat = 0.0;
-      _viewLon = -(targetNode.rotationOffset + _debugRotationOffset); // Adjust yaw by rotation offset
+      _viewLon =
+          -(targetNode.rotationOffset +
+              _debugRotationOffset); // Adjust yaw by rotation offset
     });
 
     // Debug: Print navigation info
@@ -117,12 +120,36 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
 
     // 1. Convert Graph Edges to Hotspots
     List<Hotspot> hotspots = currentNode.edges.map((edge) {
-      // Calculate position
-      double effectiveRotationOffset = currentNode.rotationOffset + _debugRotationOffset;
-      double hotspotLongitude = edge.heading - effectiveRotationOffset;
+      // Get neighbor node
+      final neighborNode = widget.graph[edge.targetNodeId];
+      if (neighborNode == null) {
+        // Fallback if neighbor not found
+        double effectiveRotationOffset =
+            currentNode.rotationOffset + _debugRotationOffset;
+        return Hotspot(
+          latitude: 0,
+          longitude: edge.heading - effectiveRotationOffset,
+          width: 90.0,
+          height: 90.0,
+          widget: _buildHotspotWidget(edge),
+        );
+      }
+
+      // Calculate relative position
+      final dx = neighborNode.x - currentNode.x;
+      final dy = neighborNode.y - currentNode.y;
+
+      // Calculate yaw (horizontal angle)
+      final yaw = (atan2(dy, dx) * 180) / pi;
+
+      // Apply offset (mirrored like web: -yaw + offset)
+      double effectiveRotationOffset =
+          currentNode.rotationOffset + _debugRotationOffset;
+      final rawYaw = -yaw + effectiveRotationOffset;
+      final hotspotLongitude = ((rawYaw % 360) + 360) % 360;
 
       return Hotspot(
-        latitude: 0,
+        latitude: 0, // Force horizon mode
         longitude: hotspotLongitude,
         width: 90.0,
         height: 90.0,
