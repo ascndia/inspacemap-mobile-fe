@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:panorama_viewer/panorama_viewer.dart';
@@ -32,6 +31,8 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
 
   // Debug rotation offset adjustment
   double _debugRotationOffset = 0.0;
+  // Debug toggle: when true, try to preserve world yaw; otherwise orient to travel direction
+  bool _preserveWorldYaw = false;
 
   @override
   void initState() {
@@ -48,7 +49,9 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
     final initialNode = widget.graph[_currentNodeId];
     if (initialNode != null) {
       _viewLat = 0.0;
-      _viewLon = -(initialNode.rotationOffset + _debugRotationOffset);
+      _viewLon =
+          ((-initialNode.rotationOffset - _debugRotationOffset) % 360 + 360) %
+          360;
     }
 
     // Debug: Print initial node
@@ -56,7 +59,7 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
       final initialNode = widget.graph[_currentNodeId];
       if (initialNode != null) {
         print(
-          'Entering panorama at node: ${initialNode.id}, Floor: ${initialNode.floorId}, Panorama: ${initialNode.panoramaUrl}, Rotation Offset: ${initialNode.rotationOffset}',
+          'Entering panorama at node: ${initialNode.id}, Floor: ${initialNode.floorId}, Panorama: ${initialNode.panoramaUrl}, Rotation Offset: ${initialNode.rotationOffset}, Initial viewLon: ${_viewLon}, Initial worldYaw: ${((_viewLon + initialNode.rotationOffset) % 360 + 360) % 360}',
         );
       } else {
         print(
@@ -69,22 +72,38 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
   void _loadNode(String targetNodeId) {
     if (!widget.graph.containsKey(targetNodeId)) return;
 
+    final currentNode = widget.graph[_currentNodeId]!;
     final targetNode = widget.graph[targetNodeId]!;
+
+    // Calculate direction from current to target (ground truth)
+    final dx = targetNode.x - currentNode.x;
+    final dy = targetNode.y - currentNode.y;
+    final yaw = atan2(dy, dx) * 180 / pi;
+
+    final targetOffset = targetNode.rotationOffset;
+    var viewLongitude = 0.0;
+    if (_preserveWorldYaw) {
+      // Preserve absolute world yaw
+      final currentOffset = currentNode.rotationOffset;
+      final worldYaw = ((_viewLon + currentOffset) % 360 + 360) % 360;
+      viewLongitude =
+          ((worldYaw - targetOffset + _debugRotationOffset) % 360 + 360) % 360;
+    } else {
+      // Orient to direction of travel (yaw)
+      viewLongitude =
+          ((yaw - targetOffset + _debugRotationOffset) % 360 + 360) % 360;
+    }
 
     setState(() {
       _currentNodeId = targetNodeId;
-
-      // Set initial view based on rotation offset to align panorama correctly
       _viewLat = 0.0;
-      _viewLon =
-          -(targetNode.rotationOffset +
-              _debugRotationOffset); // Adjust yaw by rotation offset
+      _viewLon = viewLongitude;
     });
 
     // Debug: Print navigation info
     if (widget.debugMode) {
       print(
-        'Navigating to node: $targetNodeId, Floor: ${targetNode.floorId}, Panorama: ${targetNode.panoramaUrl}, Rotation Offset: ${targetNode.rotationOffset}',
+        'Navigating to node: $targetNodeId, Floor: ${targetNode.floorId}, Panorama: ${targetNode.panoramaUrl}, Rotation Offset: ${targetNode.rotationOffset}, Yaw: $yaw, TargetOffset: $targetOffset, NewViewLon: $viewLongitude',
       );
     }
   }
@@ -118,18 +137,16 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
       );
     }
 
-    // 1. Convert Graph Edges to Hotspots
+    // 1. Convert Graph Edges to Hotspots (using ground-truth geometry)
     List<Hotspot> hotspots = currentNode.edges.map((edge) {
       // Get neighbor node
       final neighborNode = widget.graph[edge.targetNodeId];
       if (neighborNode == null) {
-        // Fallback if neighbor not found - use heading
-        double effectiveRotationOffset =
+        // Fallback if neighbor not found - use edge heading
+        final effectiveRotationOffset =
             currentNode.rotationOffset + _debugRotationOffset;
-        var hotspotLongitude =
+        final hotspotLongitude =
             ((edge.heading - effectiveRotationOffset) % 360 + 360) % 360;
-        // Mirror longitude: right to left
-        hotspotLongitude = (360 - hotspotLongitude) % 360;
         if (widget.debugMode) {
           print(
             'Neighbor node ${edge.targetNodeId} not found, using heading: ${edge.heading}, longitude=$hotspotLongitude',
@@ -144,24 +161,24 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
         );
       }
 
-      // Calculate relative position
+      // Calculate relative position (ground truth)
       final dx = neighborNode.x - currentNode.x;
       final dy = neighborNode.y - currentNode.y;
 
       // Calculate yaw (horizontal angle)
       final yaw = (atan2(dy, dx) * 180) / pi;
 
-      // Apply offset (mirrored like web: -yaw + offset)
-      double effectiveRotationOffset =
+      // Effective offset (rotation offset of the current node + debug)
+      final effectiveRotationOffset =
           currentNode.rotationOffset + _debugRotationOffset;
-      final rawYaw = -yaw + effectiveRotationOffset;
-      var hotspotLongitude = ((rawYaw % 360) + 360) % 360;
-      // Mirror longitude: right to left
-      hotspotLongitude = (360 - hotspotLongitude) % 360;
+
+      // Final viewer longitude uses yaw - offset (consistent with viewer's mapping)
+      final hotspotLongitude =
+          ((yaw - effectiveRotationOffset) % 360 + 360) % 360;
 
       if (widget.debugMode) {
         print(
-          'Hotspot for ${edge.targetNodeId}: dx=$dx, dy=$dy, yaw=$yaw, rawYaw=$rawYaw, longitude=$hotspotLongitude, heading=${edge.heading}',
+          'Hotspot for ${edge.targetNodeId}: dx=$dx, dy=$dy, yaw=$yaw, hotspotLon=$hotspotLongitude, heading=${edge.heading}',
         );
       }
 
@@ -185,7 +202,7 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
 
             // IMPORTANT: Sync user drag back to our variables
             onViewChanged: (longitude, latitude, tilt) {
-              _viewLon = longitude;
+              _viewLon = ((longitude % 360) + 360) % 360;
               _viewLat = latitude;
             },
 
@@ -296,6 +313,19 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
                 "Debug Offset: ${_debugRotationOffset.toStringAsFixed(1)}°",
                 style: const TextStyle(color: Colors.white),
               ),
+              Row(
+                children: [
+                  const Text(
+                    'Preserve World Yaw',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Switch(
+                    value: _preserveWorldYaw,
+                    onChanged: (v) => setState(() => _preserveWorldYaw = v),
+                    activeColor: Colors.lightGreen,
+                  ),
+                ],
+              ),
               Slider(
                 value: _debugRotationOffset,
                 min: -180.0,
@@ -306,7 +336,10 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
                   setState(() {
                     _debugRotationOffset = value;
                     // Update view immediately
-                    _viewLon = -(node.rotationOffset + _debugRotationOffset);
+                    _viewLon =
+                        ((-node.rotationOffset - _debugRotationOffset) % 360 +
+                            360) %
+                        360;
                   });
                 },
               ),
