@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../panorama_viewer.dart';
 import '../models/venue_manifest.dart';
 import '../types/graph.dart';
+import '../debug.dart';
 
 class PlaceDetailPage extends StatefulWidget {
   final VenueManifest venue;
@@ -42,7 +43,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
             child: VirtualTourViewer(
               graph: _graph,
               initialNodeId: widget.startNodeId,
-              debugMode: true,
+              debugMode: isDebugMode,
             ),
           ),
 

@@ -6,6 +6,8 @@ import '../models/venue_manifest.dart';
 import '../services/venue_service.dart';
 import '../widgets/location_detail_sheet.dart';
 import '../widgets/items_list_page.dart';
+import '../screens/developer_mode_screen.dart';
+import '../debug.dart';
 
 final LatLng _demoLocation = const LatLng(
   -6.176391495779535,
@@ -21,6 +23,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   final MapController _mapController = MapController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PlaceData? _selectedPlace;
   VenueManifest? _venue;
   List<PlaceData> _places = [];
@@ -31,14 +34,15 @@ class _MapScreenState extends State<MapScreen> {
     _fetchVenue();
   }
 
-  Future<void> _fetchVenue() async {
+  Future<void> _fetchVenue({String? orgSlug, String? venueSlug}) async {
     try {
       final venue = await VenueService().fetchVenueManifest(
-        'demo-org',
-        'demo-venue',
+        orgSlug ?? 'demo-org',
+        venueSlug ?? 'demo-venue',
       );
       setState(() {
         _venue = venue;
+        _selectedPlace = null; // Reset selection
         _places = [
           // Venue place for street view
           PlaceData(
@@ -84,6 +88,7 @@ class _MapScreenState extends State<MapScreen> {
       });
     } catch (e) {
       print('Error fetching venue: $e');
+      rethrow; // To handle in caller
     }
   }
 
@@ -126,10 +131,14 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.grey[850],
         foregroundColor: Colors.white,
-        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+        ),
         title: const Text('InSpaceMap'),
         actions: [
           IconButton(
@@ -147,6 +156,33 @@ class _MapScreenState extends State<MapScreen> {
             child: CircleAvatar(radius: 18, child: const Icon(Icons.person)),
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.grey),
+              child: Text(
+                'InSpaceMap Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.developer_mode),
+              title: const Text('Developer Mode'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => DeveloperModeScreen(onFetch: _fetchVenue),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       body: Stack(
         children: [
