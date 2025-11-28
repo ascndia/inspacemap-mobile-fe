@@ -39,14 +39,20 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
     } else {
       _currentNodeId = widget.initialNodeId;
     }
-    // Initial setup if needed
+
+    // Set initial view for the starting node
+    final initialNode = widget.graph[_currentNodeId];
+    if (initialNode != null) {
+      _viewLat = 0.0;
+      _viewLon = -initialNode.rotationOffset;
+    }
 
     // Debug: Print initial node
     if (widget.debugMode) {
       final initialNode = widget.graph[_currentNodeId];
       if (initialNode != null) {
         print(
-          'Entering panorama at node: ${initialNode.id}, Floor: ${initialNode.floorId}, Panorama: ${initialNode.panoramaUrl}',
+          'Entering panorama at node: ${initialNode.id}, Floor: ${initialNode.floorId}, Panorama: ${initialNode.panoramaUrl}, Rotation Offset: ${initialNode.rotationOffset}',
         );
       } else {
         print(
@@ -64,16 +70,15 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
     setState(() {
       _currentNodeId = targetNodeId;
 
-      // OPTIONAL: Reset view to center (0,0) when entering a new node
-      // Or calculate a specific entry angle based on where you came from.
+      // Set initial view based on rotation offset to align panorama correctly
       _viewLat = 0.0;
-      _viewLon = 0.0;
+      _viewLon = -targetNode.rotationOffset; // Adjust yaw by rotation offset
     });
 
     // Debug: Print navigation info
     if (widget.debugMode) {
       print(
-        'Navigating to node: $targetNodeId, Floor: ${targetNode.floorId}, Panorama: ${targetNode.panoramaUrl}',
+        'Navigating to node: $targetNodeId, Floor: ${targetNode.floorId}, Panorama: ${targetNode.panoramaUrl}, Rotation Offset: ${targetNode.rotationOffset}',
       );
     }
   }
