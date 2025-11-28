@@ -29,6 +29,9 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
   double _viewLat = 0.0;
   double _viewLon = 0.0;
 
+  // Debug rotation offset adjustment
+  double _debugRotationOffset = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +47,7 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
     final initialNode = widget.graph[_currentNodeId];
     if (initialNode != null) {
       _viewLat = 0.0;
-      _viewLon = -initialNode.rotationOffset;
+      _viewLon = -(initialNode.rotationOffset + _debugRotationOffset);
     }
 
     // Debug: Print initial node
@@ -72,7 +75,7 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
 
       // Set initial view based on rotation offset to align panorama correctly
       _viewLat = 0.0;
-      _viewLon = -targetNode.rotationOffset; // Adjust yaw by rotation offset
+      _viewLon = -(targetNode.rotationOffset + _debugRotationOffset); // Adjust yaw by rotation offset
     });
 
     // Debug: Print navigation info
@@ -115,7 +118,8 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
     // 1. Convert Graph Edges to Hotspots
     List<Hotspot> hotspots = currentNode.edges.map((edge) {
       // Calculate position
-      double hotspotLongitude = edge.heading - currentNode.rotationOffset;
+      double effectiveRotationOffset = currentNode.rotationOffset + _debugRotationOffset;
+      double hotspotLongitude = edge.heading - effectiveRotationOffset;
 
       return Hotspot(
         latitude: 0,
@@ -243,6 +247,24 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
               Text(
                 "Rotation Offset: ${node.rotationOffset.toStringAsFixed(1)}°",
                 style: const TextStyle(color: Colors.white),
+              ),
+              Text(
+                "Debug Offset: ${_debugRotationOffset.toStringAsFixed(1)}°",
+                style: const TextStyle(color: Colors.white),
+              ),
+              Slider(
+                value: _debugRotationOffset,
+                min: -180.0,
+                max: 180.0,
+                divisions: 360,
+                label: _debugRotationOffset.toStringAsFixed(1),
+                onChanged: (value) {
+                  setState(() {
+                    _debugRotationOffset = value;
+                    // Update view immediately
+                    _viewLon = -(node.rotationOffset + _debugRotationOffset);
+                  });
+                },
               ),
             ],
           ),
