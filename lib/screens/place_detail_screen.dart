@@ -31,6 +31,10 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
         _graph[node.id] = GraphNode.fromApi(node, floor.id);
       }
     }
+
+    // Make graph bidirectional
+    _makeGraphBidirectional();
+
     // Validate startNodeId
     _effectiveStartNodeId = _graph.containsKey(widget.startNodeId)
         ? widget.startNodeId
@@ -42,6 +46,56 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
     print(
       'PlaceDetailPage: requested startNodeId: ${widget.startNodeId}, effective: $_effectiveStartNodeId',
     );
+  }
+
+  void _makeGraphBidirectional() {
+    final newEdges = <String, List<GraphEdge>>{};
+
+    for (var nodeId in _graph.keys) {
+      final node = _graph[nodeId]!;
+      for (var edge in node.edges) {
+        final targetId = edge.targetNodeId;
+        if (_graph.containsKey(targetId)) {
+          final targetNode = _graph[targetId]!;
+          // Check if reverse edge already exists
+          final hasReverse = targetNode.edges.any(
+            (e) => e.targetNodeId == nodeId,
+          );
+          if (!hasReverse) {
+            // Add reverse edge
+            final reverseHeading = (edge.heading + 180) % 360;
+            final reverseEdge = GraphEdge(
+              targetNodeId: nodeId,
+              heading: reverseHeading,
+              distance: edge.distance,
+              type: edge.type,
+            );
+            if (!newEdges.containsKey(targetId)) {
+              newEdges[targetId] = [];
+            }
+            newEdges[targetId]!.add(reverseEdge);
+          }
+        }
+      }
+    }
+
+    // Apply new edges
+    for (var entry in newEdges.entries) {
+      final node = _graph[entry.key]!;
+      _graph[entry.key] = GraphNode(
+        id: node.id,
+        x: node.x,
+        y: node.y,
+        panoramaUrl: node.panoramaUrl,
+        rotationOffset: node.rotationOffset,
+        edges: [...node.edges, ...entry.value],
+        floorId: node.floorId,
+      );
+    }
+
+    if (isDebugMode) {
+      print('Made graph bidirectional. Added reverse edges where missing.');
+    }
   }
 
   @override

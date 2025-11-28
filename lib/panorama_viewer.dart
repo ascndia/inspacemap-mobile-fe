@@ -123,12 +123,21 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
       // Get neighbor node
       final neighborNode = widget.graph[edge.targetNodeId];
       if (neighborNode == null) {
-        // Fallback if neighbor not found
+        // Fallback if neighbor not found - use heading
         double effectiveRotationOffset =
             currentNode.rotationOffset + _debugRotationOffset;
+        var hotspotLongitude =
+            ((edge.heading - effectiveRotationOffset) % 360 + 360) % 360;
+        // Mirror longitude: right to left
+        hotspotLongitude = (360 - hotspotLongitude) % 360;
+        if (widget.debugMode) {
+          print(
+            'Neighbor node ${edge.targetNodeId} not found, using heading: ${edge.heading}, longitude=$hotspotLongitude',
+          );
+        }
         return Hotspot(
           latitude: 0,
-          longitude: edge.heading - effectiveRotationOffset,
+          longitude: hotspotLongitude,
           width: 90.0,
           height: 90.0,
           widget: _buildHotspotWidget(edge),
@@ -146,7 +155,15 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
       double effectiveRotationOffset =
           currentNode.rotationOffset + _debugRotationOffset;
       final rawYaw = -yaw + effectiveRotationOffset;
-      final hotspotLongitude = ((rawYaw % 360) + 360) % 360;
+      var hotspotLongitude = ((rawYaw % 360) + 360) % 360;
+      // Mirror longitude: right to left
+      hotspotLongitude = (360 - hotspotLongitude) % 360;
+
+      if (widget.debugMode) {
+        print(
+          'Hotspot for ${edge.targetNodeId}: dx=$dx, dy=$dy, yaw=$yaw, rawYaw=$rawYaw, longitude=$hotspotLongitude, heading=${edge.heading}',
+        );
+      }
 
       return Hotspot(
         latitude: 0, // Force horizon mode
@@ -251,7 +268,7 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
                 style: const TextStyle(color: Colors.white),
               ),
               Text(
-                "Edges: ${node.edges.length} (filtered from neighbors)",
+                "Edges: ${node.edges.length}",
                 style: const TextStyle(color: Colors.white),
               ),
               if (node.edges.isNotEmpty) ...[
