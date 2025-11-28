@@ -157,7 +157,7 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
           longitude: hotspotLongitude,
           width: 90.0,
           height: 90.0,
-          widget: _buildHotspotWidget(edge),
+          widget: _buildHotspotWidget(edge, hotspotLongitude),
         );
       }
 
@@ -187,7 +187,7 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
         longitude: hotspotLongitude,
         width: 90.0,
         height: 90.0,
-        widget: _buildHotspotWidget(edge),
+        widget: _buildHotspotWidget(edge, hotspotLongitude),
       );
     }).toList();
 
@@ -218,43 +218,42 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
     );
   }
 
-  Widget _buildHotspotWidget(GraphEdge edge) {
+  Widget _buildHotspotWidget(GraphEdge edge, double hotspotLongitude) {
+    final iconWidget = Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.7),
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.blueAccent, width: 2),
+        boxShadow: const [BoxShadow(blurRadius: 5, color: Colors.black45)],
+      ),
+      child: const Icon(Icons.arrow_upward, color: Colors.blueAccent, size: 28),
+    );
+
+    final hotspotChild = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Icon container
+        iconWidget,
+        // Label
+        Container(
+          margin: const EdgeInsets.only(top: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          decoration: BoxDecoration(
+            color: Colors.black54,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            edge.targetNodeId, // Or a readable name if you have one
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        ),
+      ],
+    );
+
     return GestureDetector(
       onTap: () => _loadNode(edge.targetNodeId),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.7),
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.blueAccent, width: 2),
-              boxShadow: const [
-                BoxShadow(blurRadius: 5, color: Colors.black45),
-              ],
-            ),
-            child: const Icon(
-              Icons.arrow_upward,
-              color: Colors.blueAccent,
-              size: 28,
-            ),
-          ),
-          // Label
-          Container(
-            margin: const EdgeInsets.only(top: 4),
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: Colors.black54,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              edge.targetNodeId, // Or a readable name if you have one
-              style: const TextStyle(color: Colors.white, fontSize: 12),
-            ),
-          ),
-        ],
-      ),
+      child: hotspotChild,
     );
   }
 
@@ -263,87 +262,97 @@ class _VirtualTourViewerState extends State<VirtualTourViewer> {
       top: 40,
       right: 10,
       child: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.6),
-            borderRadius: BorderRadius.circular(8),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.7,
+            maxWidth: 280,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Node: ${node.id}",
-                style: const TextStyle(color: Colors.yellow),
-              ),
-              Text(
-                "Floor: ${node.floorId}",
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(
-                "Panorama: ${node.panoramaUrl ?? 'None'}",
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(
-                "Edges: ${node.edges.length}",
-                style: const TextStyle(color: Colors.white),
-              ),
-              if (node.edges.isNotEmpty) ...[
-                const Text("Edges:", style: TextStyle(color: Colors.cyan)),
-                ...node.edges.map(
-                  (e) => Text(
-                    "  -> ${e.targetNodeId}",
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Node: ${node.id}",
+                    style: const TextStyle(color: Colors.yellow),
+                  ),
+                  Text(
+                    "Floor: ${node.floorId}",
                     style: const TextStyle(color: Colors.white),
                   ),
-                ),
-              ],
-              Text(
-                "Lat: ${_viewLat.toStringAsFixed(1)}°",
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(
-                "Lon: ${_viewLon.toStringAsFixed(1)}°",
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(
-                "Rotation Offset: ${node.rotationOffset.toStringAsFixed(1)}°",
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(
-                "Debug Offset: ${_debugRotationOffset.toStringAsFixed(1)}°",
-                style: const TextStyle(color: Colors.white),
-              ),
-              Row(
-                children: [
-                  const Text(
-                    'Preserve World Yaw',
-                    style: TextStyle(color: Colors.white),
+                  Text(
+                    "Panorama: ${node.panoramaUrl ?? 'None'}",
+                    style: const TextStyle(color: Colors.white),
                   ),
-                  Switch(
-                    value: _preserveWorldYaw,
-                    onChanged: (v) => setState(() => _preserveWorldYaw = v),
-                    activeColor: Colors.lightGreen,
+                  Text(
+                    "Edges: ${node.edges.length}",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  if (node.edges.isNotEmpty) ...[
+                    const Text("Edges:", style: TextStyle(color: Colors.cyan)),
+                    ...node.edges.map(
+                      (e) => Text(
+                        "  -> ${e.targetNodeId}",
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                  Text(
+                    "Lat: ${_viewLat.toStringAsFixed(1)}°",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    "Lon: ${_viewLon.toStringAsFixed(1)}°",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    "Rotation Offset: ${node.rotationOffset.toStringAsFixed(1)}°",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    "Debug Offset: ${_debugRotationOffset.toStringAsFixed(1)}°",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Preserve World Yaw',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Switch(
+                        value: _preserveWorldYaw,
+                        onChanged: (v) => setState(() => _preserveWorldYaw = v),
+                        activeColor: Colors.lightGreen,
+                      ),
+                    ],
+                  ),
+                  Slider(
+                    value: _debugRotationOffset,
+                    min: -180.0,
+                    max: 180.0,
+                    divisions: 360,
+                    label: _debugRotationOffset.toStringAsFixed(1),
+                    onChanged: (value) {
+                      setState(() {
+                        _debugRotationOffset = value;
+                        // Update view immediately
+                        _viewLon =
+                            ((-node.rotationOffset - _debugRotationOffset) %
+                                    360 +
+                                360) %
+                            360;
+                      });
+                    },
                   ),
                 ],
               ),
-              Slider(
-                value: _debugRotationOffset,
-                min: -180.0,
-                max: 180.0,
-                divisions: 360,
-                label: _debugRotationOffset.toStringAsFixed(1),
-                onChanged: (value) {
-                  setState(() {
-                    _debugRotationOffset = value;
-                    // Update view immediately
-                    _viewLon =
-                        ((-node.rotationOffset - _debugRotationOffset) % 360 +
-                            360) %
-                        360;
-                  });
-                },
-              ),
-            ],
+            ),
           ),
         ),
       ),
