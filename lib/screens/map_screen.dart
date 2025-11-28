@@ -85,6 +85,10 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
         ];
+        // Debug: Print startNodeIds
+        for (var place in _places) {
+          print('Place: ${place.name}, startNodeId: ${place.startNodeId}');
+        }
       });
     } catch (e) {
       print('Error fetching venue: $e');

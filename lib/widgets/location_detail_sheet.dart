@@ -117,6 +117,9 @@ class _LocationDetailSheetState extends State<LocationDetailSheet> {
                             ),
                           ),
                           onPressed: () {
+                            print(
+                              'Check Detail pressed for ${widget.place.name}, startNodeId: ${widget.place.startNodeId}',
+                            );
                             Navigator.push(
                               context,
                               MaterialPageRoute(

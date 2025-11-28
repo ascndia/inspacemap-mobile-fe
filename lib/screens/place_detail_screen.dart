@@ -20,6 +20,7 @@ class PlaceDetailPage extends StatefulWidget {
 
 class _PlaceDetailPageState extends State<PlaceDetailPage> {
   late Map<String, GraphNode> _graph;
+  late String _effectiveStartNodeId;
 
   @override
   void initState() {
@@ -30,6 +31,17 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
         _graph[node.id] = GraphNode.fromApi(node, floor.id);
       }
     }
+    // Validate startNodeId
+    _effectiveStartNodeId = _graph.containsKey(widget.startNodeId)
+        ? widget.startNodeId
+        : widget.venue.startNodeId;
+    if (!_graph.containsKey(_effectiveStartNodeId)) {
+      // Fallback to first node if even venue startNodeId is invalid
+      _effectiveStartNodeId = _graph.keys.first;
+    }
+    print(
+      'PlaceDetailPage: requested startNodeId: ${widget.startNodeId}, effective: $_effectiveStartNodeId',
+    );
   }
 
   @override
@@ -42,7 +54,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
           Positioned.fill(
             child: VirtualTourViewer(
               graph: _graph,
-              initialNodeId: widget.startNodeId,
+              initialNodeId: _effectiveStartNodeId,
               debugMode: isDebugMode,
             ),
           ),
